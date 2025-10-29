@@ -1,22 +1,5 @@
-'use client'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import React from "react";
 
 export default function ConnectButton() {
-  const { address, isConnected } = useAccount()
-  const { connect, connectors } = useConnect()
-  const { disconnect } = useDisconnect()
-
-  if (isConnected)
-    return (
-      <div>
-        <p>Connected to: {address}</p>
-        <button onClick={() => disconnect()}>Disconnect</button>
-      </div>
-    )
-
-  return (
-    <button onClick={() => connect({ connector: connectors[0] })}>
-      Connect Wallet
-    </button>
-  )
+  return <w3m-button />
 }

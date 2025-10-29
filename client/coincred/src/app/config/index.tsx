@@ -1,38 +1,48 @@
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import { cookieStorage, createStorage } from 'wagmi'
-import { defineChain } from 'viem'
+import { liskSepolia } from 'wagmi/chains'
 
-// 👇 Local Anvil test chain
-const localAnvil = defineChain({
+// ✅ Add your local chain definition
+const anvilLocal = {
   id: 31337,
-  name: 'Local Anvil',
+  name: 'Anvil Local',
+  network: 'localhost',
   nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
-    decimals: 18
+    decimals: 18,
+    name: 'Ethereum',
+    symbol: 'ETH'
   },
   rpcUrls: {
-    default: { http: [process.env.NEXT_PUBLIC_RPC_URL || 'http://10.185.76.64:8545'] }
-  },
-})
+    default: {
+      http: ['http://192.168.137.1:8545'] // ← your Anvil RPC URL
+    },
+    public: {
+      http: ['http://192.168.137.1:8545']
+    }
+  }
+} as const
 
-export const projectId = 'a354850f4268cf041c5c0ba35d69e4ae'
-
+// ✅ Your WalletConnect project ID (from cloud.walletconnect.com)
+export const projectId = "a354850f4268cf041c5c0ba35d69e4ae"
 if (!projectId) throw new Error('Project ID is not defined')
 
+// ✅ Metadata shown in wallet connection modal
 const metadata = {
   name: 'CoinCred',
-  description: 'Local Blockchain Testing with Anvil',
-  url: 'http://localhost:3000',
+  description: 'CoinCred DApp (Local Blockchain)',
+  url: 'http://localhost:3000', // use your frontend URL
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
+// ✅ Create Wagmi + Web3Modal config
+const chains = [anvilLocal, liskSepolia] as const
+
 export const config = defaultWagmiConfig({
-  chains: [localAnvil],
+  chains,
   projectId,
   metadata,
   ssr: true,
   storage: createStorage({
-    storage: cookieStorage,
-  }),
+    storage: cookieStorage
+  })
 })

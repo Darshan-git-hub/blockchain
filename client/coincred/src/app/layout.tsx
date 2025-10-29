@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import Narvbar from '../components/Narvbar'
-import ConnectButton from '../components/connect'
+
 import { cookieToInitialState } from 'wagmi'
 
 import { config } from './config'
@@ -29,8 +29,7 @@ export default function RootLayout({
       <body className={`${inter.className} h-screen overflow-hidden`}><Web3ModalProvider initialState={initialState}>
      
           <Narvbar />
-          <ConnectButton />
-
+          
             {children}
           
       
